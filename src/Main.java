@@ -1,3 +1,4 @@
+import com.sun.xml.internal.ws.server.ServerRtException;
 import objects.Team;
 
 import javax.print.attribute.standard.ReferenceUriSchemesSupported;
@@ -5,6 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -40,6 +42,7 @@ public class Main {
 
     private static ArrayList<String> LoggedInTeams = new ArrayList<>(); // TODO: 5/29/2017 when socket DC, remove team name from ArrayList
     private static ArrayList<userpass> UserPasses = new ArrayList<>();
+    private static ArrayList<Capitalizer> threads = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         System.out.println("The capitalization server is running.");
@@ -64,7 +67,8 @@ public class Main {
         ServerSocket listener = new ServerSocket(9898);
         try {
             while (true) {
-                new Capitalizer(listener.accept(), clientNumber++).start();
+                threads.add(new Capitalizer(listener.accept(), clientNumber++));
+                threads.get(threads.size()-1).start();
             }
         } finally {
             listener.close();
@@ -75,6 +79,10 @@ public class Main {
         private Socket socket;
         private int clientNumber;
         private String TeamName;
+        public String get_TeamName()
+        {
+            return TeamName;
+        }
 
         public Capitalizer(Socket socket, int clientNumber) {
             this.socket = socket;
@@ -121,12 +129,16 @@ public class Main {
                             continue;
                         }
                         TeamName = Login.Execute(l[0], l[1], UserPasses, LoggedInTeams, out);
-                        System.out.println("logged in!!!");
+                        if(TeamName!="")
+                            System.out.println(TeamName+" logged in");
+                        else
+                            System.out.println("login failed");
                     }
                     else if(Objects.equals(input, "login") && LoggedInTeams.contains(TeamName))
                     {
                         out.println("login no");
                         out.println("you are already login");
+                        System.out.println(TeamName+" already login");
                     }
                     else if(LoggedInTeams.contains(TeamName))
                     {
@@ -150,6 +162,8 @@ public class Main {
                                 break;
 
                             case "req_send":
+                                String oppTeam = in.next();
+
 
                                 break;
                             case "req_recieve":
@@ -181,15 +195,6 @@ public class Main {
                     {
                         out.println("error"); //client not logged in. but i have sent a request
                     }
-
-//                    String path = getClass().getResource("").getPath();
-//                    File dir = new File(path);
-//                    if(!dir.isDirectory())
-//                        dir.delete();
-//                    if(!dir.exists())
-//                        dir.mkdir();
-
-
                 }
             } catch (IOException e) {
                 log("Error handling client# " + clientNumber + ": " + e);

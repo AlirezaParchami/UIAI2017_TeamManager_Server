@@ -15,6 +15,7 @@ public class DefaultCode
         try {
             br = new BufferedReader(new FileReader(path + "//" + TeamName + "//default.txt"));
             s = br.readLine();// send default code name
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -21,6 +21,8 @@ public class Select {
                     {
                         BufferedWriter br = new BufferedWriter(new FileWriter(path + "//" + TeamName + "//default.txt"));
                         br.write(CodeName);
+                        br.flush();
+                        br.close();
                         return true;
                     }
                 }

@@ -18,6 +18,7 @@ public class TeamsList {
                     teams+=",";
                 teams+=line;
             }
+            br.close();
         }
         catch (Exception e)
         {
