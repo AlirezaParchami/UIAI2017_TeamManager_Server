@@ -15,6 +15,7 @@ public class Code {
             File[] CodesFilesList = codes_directory.listFiles();
             for (File file : CodesFilesList) {
                 if (file.getName().equals(CodeName)) {
+                    out.println("ok");
                     FileOperation.send(file,socket);
                     return;
                 }
@@ -22,7 +23,7 @@ public class Code {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        out.println("not exist!!!");
+        out.println("no");
 
 
     }

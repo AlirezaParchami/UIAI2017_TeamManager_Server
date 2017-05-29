@@ -20,6 +20,7 @@ public class Game {
             for (File file : GamesFilesList) {
                 if(file.getName().equals(GameName))
                 {
+                    out.println("ok");
                     FileOperation.send(file, socket);
                     return;
                 }
@@ -29,6 +30,6 @@ public class Game {
         {
             e.printStackTrace();
         }
-        out.println("not exist!!!");
+        out.println("no");
     }
 }
