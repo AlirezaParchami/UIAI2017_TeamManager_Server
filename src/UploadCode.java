@@ -1,6 +1,7 @@
 /**
  * Created by MSN on 5/29/2017.
  */
+
 import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.io.*;
 import java.net.ServerSocket;
@@ -11,31 +12,29 @@ import java.time.format.DateTimeFormatter;
 public class UploadCode {
     private final static int FILE_SIZE = 1000000;
 
-    public static String LOCATE_TO_SAVE="" ;
+    public static String LOCATE_TO_SAVE = "";
     public String FILE_TO_SAVE = "";
-    public String time ="";
+    public String time = "";
 
-    void file_name (String language )
-    {
-        if(language == "CPP")
+    void file_name(String language) {
+        if (language == "CPP")
             FILE_TO_SAVE += "CPP ";
-        else if(language == "JAVA")
+        else if (language == "JAVA")
             FILE_TO_SAVE += "JAVA ";
-        else if(language == "PYTHON")
+        else if (language == "PYTHON")
             FILE_TO_SAVE += "PYTHON ";
 
         FILE_TO_SAVE += time + ".zip";
     }
 
-    void save_dir(String team_name)
-    {
+    void save_dir(String team_name) {
 
         String path = getClass().getResource("").getPath();
         LOCATE_TO_SAVE += path;
-        LOCATE_TO_SAVE += "//" + team_name;
+        LOCATE_TO_SAVE += "//" + team_name + "//code";
     }
 
-    UploadCode(String language ,String Team_name, Socket socket ) throws IOException {
+    UploadCode(String language, String Team_name, Socket socket) {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -48,8 +47,8 @@ public class UploadCode {
             byte[] mybytearray = new byte[FILE_SIZE];
             InputStream is = socket.getInputStream();
             save_dir(Team_name);    // write LOCATE_TO_SAVE
-            File file  = new File (LOCATE_TO_SAVE + FILE_TO_SAVE);
-            if(!file.exists())
+            File file = new File(LOCATE_TO_SAVE + FILE_TO_SAVE);
+            if (!file.exists())
                 file.createNewFile();
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
@@ -57,19 +56,25 @@ public class UploadCode {
             int current = bytesRead;
             do {
                 bytesRead =
-                        is.read(mybytearray, current, (mybytearray.length-current));
-                if(bytesRead >= 0) current += bytesRead;
-            } while(bytesRead > -1);
+                        is.read(mybytearray, current, (mybytearray.length - current));
+                if (bytesRead >= 0) current += bytesRead;
+            } while (bytesRead > -1);
 
-            bos.write(mybytearray, 0 , current);
+            bos.write(mybytearray, 0, current);
             bos.flush();
-        }
-        finally {
-            fos.close();
-            bos.close();
-        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+                bos.close();
+            }
+            catch (IOException e )
+            {
+                e.printStackTrace();
+            }
+            }
     }
-
 
 
 }

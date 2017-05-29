@@ -106,10 +106,8 @@ public class Main {
                     {
                         break;
                     }
-                    System.out.println(input);
                     if(input.equals("login") && !LoggedInTeams.contains(TeamName))
                     {
-                        System.out.println("here");
                         String[] l = in.next().split(",");
                         System.out.println(l[0] + " " + l[1]);
                         System.out.println("____");
