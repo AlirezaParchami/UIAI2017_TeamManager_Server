@@ -2,22 +2,64 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
  * Created by MSN on 5/28/2017.
  */
 public class Main {
-    public class userpass
+    public static class userpass
     {
-        String user,pass;
+        private String user,pass;
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public String getPass() {
+            return pass;
+        }
+
+        public void setPass(String pass) {
+            this.pass = pass;
+        }
+
+        public userpass(String user, String pass) {
+            this.user = user;
+            this.pass = pass;
+        }
     }
     private static ArrayList<String> LoggedInTeams = new ArrayList<>(); // TODO: 5/29/2017 when socket DC, remove team name from ArrayList
     private static ArrayList<userpass> UserPasses = new ArrayList<>();
 
+
+
     public static void main(String[] args) throws IOException {
+
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
+
+        String path = Login.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path+"//userpasses.txt"));
+            String user, pass;
+            while ((user=br.readLine())!=null)
+            {
+                pass = br.readLine();
+
+                UserPasses.add(new userpass(user,pass));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         ServerSocket listener = new ServerSocket(9898);
         try {
             while (true) {
@@ -63,15 +105,20 @@ public class Main {
                     {
                         break;
                     }
-
-                    if( input=="login" && !LoggedInTeams.contains(TeamName))
+                    System.out.println(input);
+                    if(input.equals("login") && !LoggedInTeams.contains(TeamName))
                     {
-                        String[] l = in.nextLine().split(",");
+                        System.out.println("here");
+                        String[] l = in.next().split(",");
+                        System.out.println(l[0] + " " + l[1]);
+                        System.out.println("____");
                         TeamName = Login.Execute(l[0], l[1], UserPasses, LoggedInTeams, out);
+                        System.out.println("things sent!!!");
                     }
-                    else if( input=="login" && LoggedInTeams.contains(TeamName))
+                    else if(Objects.equals(input, "login") && LoggedInTeams.contains(TeamName))
                     {
-                        out.println("login no you are already login");
+                        out.println("login no");
+                        out.println("you are already login");
                     }
                     else if(LoggedInTeams.contains(TeamName))
                     {
@@ -134,6 +181,7 @@ public class Main {
         private void log(String message) {
             System.out.println(message);
         }
+
     }
 
 }
