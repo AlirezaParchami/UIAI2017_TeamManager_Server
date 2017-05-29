@@ -17,7 +17,7 @@ public class Select {
             File[] CodesFilesList = codes_directory.listFiles();
             for (File file : CodesFilesList) {
                 if (file.isFile()) {
-                    if(file.getName()==CodeName)
+                    if(file.getName().equals(CodeName))
                     {
                         BufferedWriter br = new BufferedWriter(new FileWriter(path + "//" + TeamName + "//default.txt"));
                         br.write(CodeName);

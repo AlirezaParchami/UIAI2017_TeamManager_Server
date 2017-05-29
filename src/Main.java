@@ -164,6 +164,17 @@ public class Main {
                             case "codes":
                                 CodesList.send(out, TeamName, path);
                                 break;
+                            case "game":
+                                String GameName = in.next();
+                                Game.send(out, TeamName,GameName,path);
+                                break;
+                            case "code":
+                                String CodeName = in.next();
+                                Code.send(out, TeamName, CodeName, path);
+                                break;
+                            case "default":
+                                DefaultCode.send(out, TeamName);
+
                         }
                     }
                     else
