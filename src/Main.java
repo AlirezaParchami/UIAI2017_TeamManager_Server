@@ -1,3 +1,5 @@
+import objects.Team;
+
 import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.io.*;
 import java.net.ServerSocket;
@@ -35,13 +37,11 @@ public class Main {
             this.pass = pass;
         }
     }
+
     private static ArrayList<String> LoggedInTeams = new ArrayList<>(); // TODO: 5/29/2017 when socket DC, remove team name from ArrayList
     private static ArrayList<userpass> UserPasses = new ArrayList<>();
 
-
-
     public static void main(String[] args) throws IOException {
-
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
 
@@ -90,6 +90,7 @@ public class Main {
 
         public void run() {
             try {
+                String path = Login.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
                 // Decorate the streams so we can send characters
                 // and not just bytes.  Ensure output is flushed
@@ -109,10 +110,15 @@ public class Main {
                     if(input.equals("login") && !LoggedInTeams.contains(TeamName))
                     {
                         String[] l = in.next().split(",");
-                        System.out.println(l[0] + " " + l[1]);
-                        System.out.println("____");
+                        if(l.length!=2)
+                        {
+                            out.println("login no");
+                            out.println("wrong message!!!");
+                            System.out.println("length of l is not 2");
+                            continue;
+                        }
                         TeamName = Login.Execute(l[0], l[1], UserPasses, LoggedInTeams, out);
-                        System.out.println("things sent!!!");
+                        System.out.println("logged in!!!");
                     }
                     else if(Objects.equals(input, "login") && LoggedInTeams.contains(TeamName))
                     {
@@ -124,17 +130,21 @@ public class Main {
                         switch (input)
                         {
                             case "upload":
-                            {
                                 String language = in.next();
 
                                 UploadCode upload = new UploadCode(language , TeamName, socket  );
                                 out.println("ok " + upload.time);
                                 //upload.language_detect(language)
-                            }
                                 break;
-                            case "select":
 
+                            case "select":
+                                String name = in.next();
+                                if(Select.execute(name, TeamName, path))
+                                    out.println("select ok");
+                                else
+                                    out.println("select no");
                                 break;
+
                             case "req_send":
 
                                 break;
@@ -142,13 +152,13 @@ public class Main {
 
                                 break;
                             case "teams":
-
+                                TeamsList.send(out,path);
                                 break;
-                            case "game":
-
+                            case "games":
+                                GamesList.send(out,TeamName, path);
                                 break;
-                            case "":
-
+                            case "codes":
+                                CodesList.send(out, TeamName, path);
                                 break;
                         }
                     }
