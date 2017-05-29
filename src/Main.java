@@ -40,7 +40,7 @@ public class Main {
         }
     }
 
-    private static ArrayList<String> LoggedInTeams = new ArrayList<>(); // TODO: 5/29/2017 when socket DC, remove team name from ArrayList
+    private static ArrayList<String> LoggedInTeams = new ArrayList<>();
     private static ArrayList<userpass> UserPasses = new ArrayList<>();
     private static ArrayList<Capitalizer> threads = new ArrayList<>();
 
@@ -118,7 +118,7 @@ public class Main {
                     {
                         break;
                     }
-                    if(input.equals("login") && !LoggedInTeams.contains(TeamName))
+                    if(input.equals("login"))
                     {
                         String[] l = in.next().split(",");
                         if(l.length!=2)
@@ -133,12 +133,6 @@ public class Main {
                             System.out.println(TeamName+" logged in");
                         else
                             System.out.println("login failed");
-                    }
-                    else if(Objects.equals(input, "login") && LoggedInTeams.contains(TeamName))
-                    {
-                        out.println("login no");
-                        out.println("you are already login");
-                        System.out.println(TeamName+" already login");
                     }
                     else if(LoggedInTeams.contains(TeamName))
                     {
@@ -188,7 +182,8 @@ public class Main {
                                 break;
                             case "default":
                                 DefaultCode.send(out, TeamName);
-
+                            default:
+                                out.println("wrong command");
                         }
                     }
                     else
@@ -196,15 +191,24 @@ public class Main {
                         out.println("error"); //client not logged in. but i have sent a request
                     }
                 }
-            } catch (IOException e) {
-                log("Error handling client# " + clientNumber + ": " + e);
-            } finally {
-                try {
+            }
+            catch (Exception e)
+            {
+//                log("Error handling client# " + clientNumber + ": " + e);
+            }
+            finally
+            {
+                try
+                {
                     socket.close();
-                } catch (IOException e) {
-                    log("Couldn't close a socket, what's going on?");
                 }
-                log("Connection with client# " + clientNumber + " closed");
+                catch (Exception e) {
+//                    log("Couldn't close a socket, what's going on?");
+                }
+//                log("Connection with client# " + clientNumber + " closed");
+            }
+            if(LoggedInTeams.contains(TeamName)) {
+                LoggedInTeams.remove(TeamName);
             }
         }
 
