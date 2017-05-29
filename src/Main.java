@@ -1,12 +1,20 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Created by MSN on 5/28/2017.
  */
 public class Main {
+    public class userpass
+    {
+        String user,pass;
+    }
+    private static ArrayList<String> LoggedInTeams = new ArrayList<>(); // TODO: 5/29/2017 when socket DC, remove team name from ArrayList
+    private static ArrayList<userpass> UserPasses = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
@@ -23,6 +31,7 @@ public class Main {
     private static class Capitalizer extends Thread {
         private Socket socket;
         private int clientNumber;
+        private String TeamName;
 
         public Capitalizer(Socket socket, int clientNumber) {
             this.socket = socket;
@@ -35,6 +44,7 @@ public class Main {
          * client a welcome message then repeatedly reading strings
          * and sending back the capitalized version of the string.
          */
+
         public void run() {
             try {
 
@@ -45,46 +55,55 @@ public class Main {
                         new InputStreamReader(socket.getInputStream()));
 
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-                // Send a welcome message to the client.
-                out.println("Hello, you are client #" + clientNumber + ".");
-                out.println("Enter a line with only a period to quit\n");
-
                 // Get messages from the client, line by line; return them
                 // capitalized
                 while (true) {
                     String input = in.next();
-                    if (input == null || input.equals(".")) {
+                    if (input == null || input.equals("."))
+                    {
                         break;
                     }
-                    switch (input)
+
+                    if( input=="login" && !LoggedInTeams.contains(TeamName))
                     {
-                        case "login":
-
-                            break;
-                        case "upload":
-
-                            break;
-                        case "select":
-
-                            break;
-                        case "req_send":
-
-                            break;
-                        case "req_recieve":
-
-                            break;
-                        case "teams":
-
-                            break;
-                        case "game":
-
-                            break;
-                        case "":
-
-                            break;
+                        String[] l = in.nextLine().split(",");
+                        TeamName = Login.Execute(l[0], l[1], UserPasses, LoggedInTeams, out);
                     }
+                    else if( input=="login" && LoggedInTeams.contains(TeamName))
+                    {
+                        out.println("login no you are already login");
+                    }
+                    else if(LoggedInTeams.contains(TeamName))
+                    {
+                        switch (input)
+                        {
+                            case "upload":
 
+                                break;
+                            case "select":
+
+                                break;
+                            case "req_send":
+
+                                break;
+                            case "req_recieve":
+
+                                break;
+                            case "teams":
+
+                                break;
+                            case "game":
+
+                                break;
+                            case "":
+
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        out.println("error"); //client not logged in. but i have sent a request
+                    }
 
 //                    String path = getClass().getResource("").getPath();
 //                    //String path2 = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
