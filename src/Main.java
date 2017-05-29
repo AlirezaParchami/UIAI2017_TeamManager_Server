@@ -1,3 +1,4 @@
+import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -78,7 +79,13 @@ public class Main {
                         switch (input)
                         {
                             case "upload":
+                            {
+                                String language = in.next();
 
+                                UploadCode upload = new UploadCode(language , TeamName, socket  );
+                                out.println("ok " + upload.time);
+                                //upload.language_detect(language)
+                            }
                                 break;
                             case "select":
 
@@ -106,7 +113,6 @@ public class Main {
                     }
 
 //                    String path = getClass().getResource("").getPath();
-//                    //String path2 = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 //                    File dir = new File(path);
 //                    if(!dir.isDirectory())
 //                        dir.delete();
