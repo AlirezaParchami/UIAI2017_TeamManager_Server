@@ -2,12 +2,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 /**
  * Created by MSN on 5/30/2017.
  */
 public class Game {
-    public static void send(PrintWriter out, String TeamName, String GameName, String path)
+    public static void send(Socket socket, PrintWriter out, String TeamName, String GameName, String path)
     {
         try {
             File games_directory = new File(path+"//"+TeamName+"//games");
@@ -19,7 +20,7 @@ public class Game {
             for (File file : GamesFilesList) {
                 if(file.getName().equals(GameName))
                 {
-                    // TODO: 5/30/2017 send file!!!
+                    FileOperation.send(file, socket);
                     return;
                 }
             }

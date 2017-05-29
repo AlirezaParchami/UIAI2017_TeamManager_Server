@@ -1,11 +1,12 @@
 import java.io.File;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 /**
  * Created by MSN on 5/30/2017.
  */
 public class Code {
-    public static void send(PrintWriter out, String TeamName, String CodeName, String path) {
+    public static void send(Socket socket, PrintWriter out, String TeamName, String CodeName, String path) {
         try {
             File codes_directory = new File(path + "//" + TeamName + "//codes");
             if (!codes_directory.exists()) {
@@ -14,7 +15,7 @@ public class Code {
             File[] CodesFilesList = codes_directory.listFiles();
             for (File file : CodesFilesList) {
                 if (file.getName().equals(CodeName)) {
-                    // TODO: 5/30/2017 send file!!!
+                    FileOperation.send(file,socket);
                     return;
                 }
             }
@@ -22,5 +23,7 @@ public class Code {
             e.printStackTrace();
         }
         out.println("not exist!!!");
+
+
     }
 }
