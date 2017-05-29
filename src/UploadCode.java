@@ -17,12 +17,12 @@ public class UploadCode {
     public String time = "";
 
     void file_name(String language) {
-        if (language == "CPP")
-            FILE_TO_SAVE += "CPP ";
-        else if (language == "JAVA")
-            FILE_TO_SAVE += "JAVA ";
-        else if (language == "PYTHON")
-            FILE_TO_SAVE += "PYTHON ";
+        if (language.equals("CPP"))
+            FILE_TO_SAVE += "CPP_";
+        else if (language.equals("JAVA"))
+            FILE_TO_SAVE += "JAVA_";
+        else if (language.equals("PYTHON"))
+            FILE_TO_SAVE += "PYTHON_";
 
         FILE_TO_SAVE += time + ".zip";
     }
@@ -36,7 +36,7 @@ public class UploadCode {
 
     UploadCode(String language, String Team_name, Socket socket) {
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd_HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         time = dtf.format(now);
         // get date and time
@@ -66,8 +66,10 @@ public class UploadCode {
             e.printStackTrace();
         } finally {
             try {
-                fos.close();
-                bos.close();
+                if(fos!=null)
+                    fos.close();
+                if(bos != null)
+                    bos.close();
             }
             catch (IOException e )
             {

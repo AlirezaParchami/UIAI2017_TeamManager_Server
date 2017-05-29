@@ -45,7 +45,7 @@ public class Main {
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
 
-        String path = Login.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String path = Main.class.getClassLoader().getResource("").getPath();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path+"//userpasses.txt"));
             String user, pass;
@@ -102,7 +102,10 @@ public class Main {
                 // Get messages from the client, line by line; return them
                 // capitalized
                 while (true) {
+
                     String input = in.next();
+                    System.out.println("INPUT: " + input);
+
                     if (input == null || input.equals("."))
                     {
                         break;
@@ -131,9 +134,10 @@ public class Main {
                         {
                             case "upload":
                                 String language = in.next();
-
+                                System.out.println("input2: " + language);
                                 UploadCode upload = new UploadCode(language , TeamName, socket  );
                                 out.println("ok " + upload.time);
+                                out.flush();
                                 //upload.language_detect(language)
                                 break;
 
