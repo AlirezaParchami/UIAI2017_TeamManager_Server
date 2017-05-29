@@ -1,0 +1,3 @@
+TableFlipperz,yes
+admin,no
+somebody,no
