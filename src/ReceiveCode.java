@@ -27,7 +27,7 @@ public class ReceiveCode {
         String LOCATE_TO_SAVE = "";
         String path = Request.class.getResource("").getPath();
         LOCATE_TO_SAVE += path;
-        LOCATE_TO_SAVE += "//" + team_name + "//codes//";
+        LOCATE_TO_SAVE +=  team_name + "//codes//";
         return LOCATE_TO_SAVE;
     }
 

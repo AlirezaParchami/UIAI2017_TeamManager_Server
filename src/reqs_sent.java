@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 
@@ -10,7 +11,10 @@ public class reqs_sent {
     {
         String reqs_sent="";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path + "//" + TeamName +"//reqs_sent.txt"));
+            File file = new File(path + "//" + TeamName +"//reqs_received.txt");
+            if(!file.exists())
+                file.createNewFile();
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String line="";
             while((line=br.readLine())!=null)
             {

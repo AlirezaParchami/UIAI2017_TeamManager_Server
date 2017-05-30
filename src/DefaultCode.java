@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 
@@ -13,7 +14,10 @@ public class DefaultCode
         String s = "";
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(path + "//" + TeamName + "//default.txt"));
+            File file = new File(path + "//" + TeamName + "//default.txt");
+            if(!file.exists())
+                file.createNewFile();
+            br = new BufferedReader(new FileReader(file));
             s = br.readLine();// send default code name
             br.close();
         } catch (Exception e) {

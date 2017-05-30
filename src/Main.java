@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.InterfaceAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -136,11 +137,13 @@ public class Main {
                             case "upload":
                                 String language = in.next();
                                 System.out.println("input2: " + language);
+                                System.out.println("PATH: "+ ReceiveCode.save_locate(TeamName) + ReceiveCode.file_name(language));
                                 File file = new File (ReceiveCode.save_locate(TeamName) + ReceiveCode.file_name(language));
-
-                                ReceiveCode.execute(file,Integer.parseInt(in.next()),socket,out);
                                 out.println("ok " + ReceiveCode.file_name(language));
                                 out.flush();
+                                int sizes = Integer.parseInt(in.next());
+                                System.out.println("SIZE FILE: " + sizes);
+                                ReceiveCode.execute(file,sizes,socket,out);
                                 break;
 
                             case "select":
@@ -152,10 +155,12 @@ public class Main {
                                 break;
 
                             case "req_send":
-
+                                String OppTeam = in.next();
+                                Request.send_request_to_file( TeamName , OppTeam);
                                 break;
+
                             case "reqs_sent":
-                                Request.send_request_to_client(socket,path + "//" + TeamName + "//reqs_sent.txt");
+                                Request.send_request_to_client(out,path + "//" + TeamName + "//reqs_sent.txt");
                                 break;
                             case "reqs_received":
                                 reqs_sent.send(out, path ,TeamName);
