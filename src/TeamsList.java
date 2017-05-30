@@ -25,5 +25,6 @@ public class TeamsList {
             e.printStackTrace();
         }
         out.println(teams);
+        out.flush();
     }
 }

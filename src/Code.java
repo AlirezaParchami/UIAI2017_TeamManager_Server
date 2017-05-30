@@ -24,6 +24,7 @@ public class Code {
             e.printStackTrace();
         }
         out.println("no");
+        out.flush();
 
 
     }

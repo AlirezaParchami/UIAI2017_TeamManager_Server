@@ -64,6 +64,7 @@ public class Login {
         }
         out.println("login no");
         out.println("wrong username");
+        out.flush();
         return "";
     }
 }

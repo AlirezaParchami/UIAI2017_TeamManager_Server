@@ -22,6 +22,7 @@ public class Game {
                 {
                     out.println("ok");
                     FileOperation.send(file, socket);
+                    out.flush();
                     return;
                 }
             }
@@ -31,5 +32,6 @@ public class Game {
             e.printStackTrace();
         }
         out.println("no");
+        out.flush();
     }
 }

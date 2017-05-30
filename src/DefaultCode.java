@@ -20,5 +20,6 @@ public class DefaultCode
             e.printStackTrace();
         }
         out.println(s);
+        out.flush();
     }
 }

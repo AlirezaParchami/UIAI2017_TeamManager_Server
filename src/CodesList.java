@@ -23,5 +23,6 @@ public class CodesList {
             }
         }
         out.println(Codes); // send code list splited by ,
+        out.flush();
     }
 }

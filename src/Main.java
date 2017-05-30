@@ -136,10 +136,11 @@ public class Main {
                             case "upload":
                                 String language = in.next();
                                 System.out.println("input2: " + language);
-                                UploadCode upload = new UploadCode(language , TeamName, socket  );
-                                out.println("ok " + upload.time);
+                                File file = new File (ReceiveCode.save_locate(TeamName) + ReceiveCode.file_name(language));
+
+                                ReceiveCode.execute(file,Integer.parseInt(in.next()),socket,out);
+                                out.println("ok " + ReceiveCode.file_name(language));
                                 out.flush();
-                                //upload.language_detect(language)
                                 break;
 
                             case "select":
@@ -154,7 +155,7 @@ public class Main {
 
                                 break;
                             case "reqs_sent":
-                              //  reqs_sent.send(out, path);
+                                Request.send_request_to_client(socket,path + "//" + TeamName + "//reqs_sent.txt");
                                 break;
                             case "reqs_received":
                                 reqs_sent.send(out, path ,TeamName);
