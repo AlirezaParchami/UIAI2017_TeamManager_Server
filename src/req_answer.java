@@ -99,7 +99,7 @@ public class req_answer { // TeamName is Name of receiver
 
         if(exists && status=="accepted")
         {
-            RunGame.execute(SenderTeamName, ReceiverTeamName);
+            //RunGame.execute(SenderTeamName, ReceiverTeamName);
         }
     }
 }

@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by MSN on 5/28/2017.
@@ -145,6 +146,59 @@ public class Main {
                                 int sizes = Integer.parseInt(in.next());
                                 System.out.println("SIZE FILE: " + sizes);
                                 ReceiveCode.execute(file,sizes,socket,out);
+                                ArrayList<String> lines = new ArrayList<>();
+                                try
+                                {
+                                    BufferedReader bf= new BufferedReader(new FileReader(path+"//teams.txt"));
+                                    String tmp;
+                                    while ((tmp=bf.readLine())!=null)
+                                    {
+                                        lines.add(tmp);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                boolean mustWriteToFile = true;
+                                for (String line :
+                                        lines) {
+                                    String[] list = line.split(",");
+                                    if(list[0].equals(TeamName))
+                                    {
+                                        if(list[1].equals("yes"))
+                                        {
+                                            mustWriteToFile = false;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            lines.remove(line);
+                                            String tmp = list[0]+",yes";
+                                            lines.add(tmp);
+                                        }
+                                    }
+                                }
+                                if(mustWriteToFile)
+                                {
+                                    try
+                                    {
+                                        BufferedWriter br = new BufferedWriter(new FileWriter(path + "//teams.txt"));
+                                        for(int i=0;i<lines.size();i++)
+                                        {
+                                            if(i!=0)
+                                                br.write("\n");
+                                            br.write(lines.get(i));
+                                        }
+                                        br.flush();
+                                        br.close();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                }
+
                                 break;
 
                             case "select":
