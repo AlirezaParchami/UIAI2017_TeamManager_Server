@@ -154,16 +154,16 @@ public class Main {
 
                                 break;
                             case "reqs_sent":
-                                reqs_sent.send(out, path);
+                              //  reqs_sent.send(out, path);
                                 break;
                             case "reqs_received":
-                                reqs_sent.send(out, path);
+                                reqs_sent.send(out, path ,TeamName);
                                 break;
                             case "req_received":
 
                                 break;
                             case "teams":
-                                TeamsList.send(out,path);
+                                TeamsList.send(out,path );
                                 break;
                             case "games":
                                 GamesList.send(out,TeamName, path);
