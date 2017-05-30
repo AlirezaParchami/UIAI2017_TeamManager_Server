@@ -1,13 +1,7 @@
-import com.sun.xml.internal.ws.server.ServerRtException;
-import objects.Team;
-
-import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -43,6 +37,7 @@ public class Main {
     private static ArrayList<String> LoggedInTeams = new ArrayList<>();
     private static ArrayList<userpass> UserPasses = new ArrayList<>();
     private static ArrayList<Capitalizer> threads = new ArrayList<>();
+    //private static ArrayList<String> Teams = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         System.out.println("The capitalization server is running.");
@@ -156,11 +151,15 @@ public class Main {
                                 break;
 
                             case "req_send":
-                                String oppTeam = in.next();
-
 
                                 break;
-                            case "req_recieve":
+                            case "reqs_sent":
+                                reqs_sent.send(out, path);
+                                break;
+                            case "reqs_received":
+                                reqs_sent.send(out, path);
+                                break;
+                            case "req_received":
 
                                 break;
                             case "teams":
@@ -182,6 +181,7 @@ public class Main {
                                 break;
                             case "default":
                                 DefaultCode.send(out, TeamName);
+                                break;
                             default:
                                 out.println("wrong command");
                         }
@@ -219,7 +219,5 @@ public class Main {
         private void log(String message) {
             System.out.println(message);
         }
-
     }
-
 }

@@ -1,3 +1,2 @@
 TableFlipperz,yes
-admin,no
-somebody,no
+buzz,no
