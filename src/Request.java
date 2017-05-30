@@ -52,6 +52,7 @@ public class Request {
             bw = new BufferedWriter(fw);
 
             bw.write(Data);
+            bw.flush();
 
             System.out.println("Done");
 

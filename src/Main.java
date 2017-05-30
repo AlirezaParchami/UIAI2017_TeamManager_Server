@@ -3,6 +3,7 @@ import java.net.InterfaceAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -165,8 +166,9 @@ public class Main {
                             case "reqs_received":
                                 reqs_sent.send(out, path ,TeamName);
                                 break;
-                            case "req_received":
-
+                            case "req_answer":
+                                String[] l = in.next().split(",");
+                                req_answer.execute(l[0],TeamName,l[1],l[2],path);
                                 break;
                             case "teams":
                                 TeamsList.send(out,path );
