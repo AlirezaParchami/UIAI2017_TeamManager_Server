@@ -33,6 +33,7 @@ public class GamesSchedule {
 
                 //call Parham Function with arguments Team1,eam1_Code_Path,Team1_coding_language ,Team1_log_location , Team2....
             }
+                br.close();
 
         } catch (Exception e) {
             e.printStackTrace();
