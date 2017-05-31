@@ -23,12 +23,12 @@ public class Login {
                 if(Objects.equals(userpass.getPass(), pass))
                 {
                     // logged in
-                    if(LoggedInTeams.contains(user))
-                    {
-                        out.println("login no");
-                        out.println("you are already login");
-                        return "";
-                    }
+//                    if(LoggedInTeams.contains(user))
+//                    {
+//                        out.println("login no");
+//                        out.println("you are already login");
+//                        return "";
+//                    }
                     LoggedInTeams.add(user);
                     out.println("login ok");
                     String path = Login.class.getProtectionDomain().getCodeSource().getLocation().getPath();

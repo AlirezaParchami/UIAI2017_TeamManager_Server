@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by MSN on 5/30/2017.
@@ -23,23 +24,33 @@ public class req_answer { // TeamName is Name of receiver
             e.printStackTrace();
         }
 
-        for (String line :
-                lines) {
-            String[] list = line.split(",");
+//        for (String line :
+//                lines) {
+//            String[] list = line.split(",");
+//            if(SenderTeamName.equals(list[0]) && date.equals(list[1]))
+//            {
+//                exists = true;
+//                String tmp = list[0]+","+list[1]+","+status;
+//                lines.add(tmp);
+//                lines.remove(line);
+//                break;
+//            }
+//        }
+        for(int i=0;i<lines.size();i++)
+        {
+            String[] list = lines.get(i).split(",");
             if(SenderTeamName.equals(list[0]) && date.equals(list[1]))
             {
                 exists = true;
                 String tmp = list[0]+","+list[1]+","+status;
-                lines.add(tmp);
-                lines.remove(line);
+                lines.set(i,tmp);
                 break;
             }
         }
-
         try
         {
             BufferedWriter bw = new BufferedWriter(new FileWriter(path + "//" + ReceiverTeamName + "//reqs_received.txt"));
-            for (int i=0;i<lines.size();i++)
+            for(int i=0;i<lines.size();i++)
             {
                 if(i!=0)
                     bw.write("\n");
@@ -69,17 +80,31 @@ public class req_answer { // TeamName is Name of receiver
             e.printStackTrace();
         }
 
-        for (String line :
-                lines) {
-            String[] list = line.split(",");
-            if(ReceiverTeamName.equals(list[0]))
+//        for (String line :
+//                lines) {
+//            String[] list = line.split(",");
+//            if(ReceiverTeamName.equals(list[0]))
+//            {
+//                String tmp = list[0]+","+list[1]+","+status;
+//                lines.add(tmp);
+//                lines.remove(line);
+//                break;
+//            }
+//        }
+
+        for(int i=0;i<lines.size();i++)
+        {
+            String[] list = lines.get(i).split(",");
+            if(ReceiverTeamName.equals(list[0]) && date.equals(list[1]))
             {
+                exists = true;
                 String tmp = list[0]+","+list[1]+","+status;
-                lines.add(tmp);
-                lines.remove(line);
+                lines.set(i,tmp);
                 break;
             }
         }
+
+
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(path + "//" + SenderTeamName + "//reqs_sent.txt"));
             for(int i=0;i<lines.size();i++)
@@ -97,9 +122,10 @@ public class req_answer { // TeamName is Name of receiver
             e.printStackTrace();
         }
 
-        if(exists && status=="accepted")
+        if(exists && status.equals("accept"))
         {
-            //RunGame.execute(SenderTeamName, ReceiverTeamName);
+            System.out.println("running");
+            RunGame.execute(SenderTeamName, ReceiverTeamName,path);
         }
     }
 }

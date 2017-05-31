@@ -27,6 +27,12 @@ public class RunGame {
             return;
         }
         File Team1Code = new File(path + "//" + Team1 +"//codes//"+DefaultCodeName1);
+        File Team1Games = new File(path + "//" + Team1 +"//games");
+
+        if(!Team1Games.exists())
+        {
+            Team1Games.mkdir();
+        }
         if(!Team1Code.exists())
             return;
 
@@ -45,9 +51,32 @@ public class RunGame {
             return;
         }
         File Team2Code = new File(path + "//" + Team2 +"//codes//"+DefaultCodeName2);
+        File Team2Games = new File(path + "//" + Team2 +"//games");
+        if(!Team2Games.exists())
+        {
+            Team2Games.mkdir();
+        }
         if(!Team2Code.exists())
             return;
 
-
+        String Command="";
+        Command += Team1 + " "+
+                Team1Code.getAbsolutePath() + " "+
+                DefaultCodeName1.split("_")[0] + " "+
+                Team1Games + " " +
+                Team2 + " "+
+                Team2Code.getAbsolutePath() + " "+
+                DefaultCodeName2.split("_")[0] + " "+
+                Team2Games;
+        try {
+            System.out.println("Running game");
+            Process p = Runtime.getRuntime().exec("cmd /c start java -jar AutoGameRunner.jar " + Command, null, new File(path+"//AutoGameRunner"));
+            p.waitFor();
+            System.out.println("Game done");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

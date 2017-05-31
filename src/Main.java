@@ -141,9 +141,9 @@ public class Main {
                                 System.out.println("input2: " + language);
                                 System.out.println("PATH: "+ ReceiveCode.save_locate(TeamName) + ReceiveCode.file_name(language));
                                 File file = new File (ReceiveCode.save_locate(TeamName) + ReceiveCode.file_name(language));
+                                int sizes = Integer.parseInt(in.next());
                                 out.println("ok " + ReceiveCode.file_name(language));
                                 out.flush();
-                                int sizes = Integer.parseInt(in.next());
                                 System.out.println("SIZE FILE: " + sizes);
                                 ReceiveCode.execute(file,sizes,socket,out);
                                 ArrayList<String> lines = new ArrayList<>();
@@ -155,15 +155,35 @@ public class Main {
                                     {
                                         lines.add(tmp);
                                     }
+                                    System.out.println("here1");
                                 }
                                 catch (Exception e)
                                 {
                                     e.printStackTrace();
                                 }
                                 boolean mustWriteToFile = true;
-                                for (String line :
-                                        lines) {
-                                    String[] list = line.split(",");
+//                                for (String line :
+//                                        lines) {
+//                                    System.out.println(line);
+//                                    String[] list = line.split(",");
+//                                    if(list[0].equals(TeamName))
+//                                    {
+//                                        if(list[1].equals("yes"))
+//                                        {
+//                                            mustWriteToFile = false;
+//                                            break;
+//                                        }
+//                                        else
+//                                        {
+//                                            lines.remove(line);
+//                                            String tmp = list[0]+",yes";
+//                                            lines.add(tmp);
+//                                        }
+//                                    }
+//                                }
+                                for(int i=0;i<lines.size();i++)
+                                {
+                                    String[] list = lines.get(i).split(",");
                                     if(list[0].equals(TeamName))
                                     {
                                         if(list[1].equals("yes"))
@@ -173,12 +193,11 @@ public class Main {
                                         }
                                         else
                                         {
-                                            lines.remove(line);
                                             String tmp = list[0]+",yes";
-                                            lines.add(tmp);
+                                            lines.set(i,tmp);
                                         }
-                                    }
-                                }
+                                    }                                }
+                                System.out.println("here2");
                                 if(mustWriteToFile)
                                 {
                                     try
@@ -198,7 +217,7 @@ public class Main {
                                         e.printStackTrace();
                                     }
                                 }
-
+                                System.out.println("here3");
                                 break;
 
                             case "select":

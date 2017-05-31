@@ -16,7 +16,12 @@ public class DefaultCode
         try {
             File file = new File(path + "//" + TeamName + "//default.txt");
             if(!file.exists())
+            {
                 file.createNewFile();
+                out.println();
+                out.flush();
+                return;
+            }
             br = new BufferedReader(new FileReader(file));
             s = br.readLine();// send default code name
             br.close();

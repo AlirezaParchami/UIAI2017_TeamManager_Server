@@ -37,8 +37,13 @@ public class ReceiveCode {
         try {
             bos = new BufferedOutputStream(new FileOutputStream(file));
             byte[] byteArray = new byte[fileSize];
-            socket.getInputStream().read(byteArray);
-            bos.write(byteArray);
+            int read_len = 0;
+            int total_len = 0;
+            while (total_len != fileSize) {
+                read_len = socket.getInputStream().read(byteArray);
+                bos.write(byteArray, 0, read_len);
+                total_len += read_len;
+            }
             bos.flush();
             System.out.println("File received");
         } catch (IOException e) {
